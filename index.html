@@ -3,212 +3,446 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flashcards: Simplificación de Expresiones Algebraicas</title>
-
-  <!-- MathJax para renderizar fórmulas -->
+  <title>Flashcards: Álgebra Interactiva</title>
+  <!-- Google Fonts modernos -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <!-- MathJax para fórmulas -->
   <script>
     window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$','$$']]
-      },
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$','$$']] },
       svg: { fontCache: 'global' }
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"></script>
-
+  <!-- Iconos y animaciones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --card-front: #ffffff;
+      --card-shadow: rgba(0, 0, 0, 0.1);
+      --text-dark: #1e293b;
+      --text-light: #f8fafc;
+      --bg-gradient: linear-gradient(125deg, #3b82f6, #8b5cf6, #d946ef);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0; 
+      padding: 0;
+    }
+    
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      padding: 20px;
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-light);
+      min-height: 100vh;
+      padding: 1.5rem;
+      overflow-x: hidden;
     }
-    h1 {
+    
+    .header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 2rem;
+      padding: 1.5rem 0;
+      position: relative;
     }
+    
+    .header h1 {
+      font-weight: 800;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, #f9f9f9, #c8d6e5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Decoración geométrica */
+    .decoration {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      opacity: 0.4;
+      overflow: hidden;
+    }
+    
+    .decoration::before {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: var(--primary);
+      top: -50px;
+      left: 10%;
+      filter: blur(30px);
+    }
+    
+    .decoration::after {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: var(--warning);
+      bottom: -100px;
+      right: 5%;
+      filter: blur(40px);
+    }
+    
+    /* Contenedor principal */
     .container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
     }
+    
+    /* Estilos de las flashcards */
     .flashcard {
       perspective: 1000px;
+      height: 280px;
     }
+    
     .flashcard-inner {
       position: relative;
       width: 100%;
-      padding-top: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       transform-style: preserve-3d;
-      transition: transform 0.6s;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px var(--card-shadow);
     }
+    
     .flashcard:hover .flashcard-inner {
       transform: rotateY(180deg);
     }
-    .flashcard-front,
-    .flashcard-back {
+    
+    .flashcard-front, .flashcard-back {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      border-radius: 1rem;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10px;
-      font-size: 1.1em;
-      background: white;
+      padding: 1.5rem;
     }
+    
+    .flashcard-front {
+      background: var(--card-front);
+      color: var(--text-dark);
+      font-size: 1.8rem;
+      box-shadow: 0 4px 6px var(--card-shadow);
+    }
+    
+    .flashcard-front::before {
+      content: "?";
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      opacity: 0.2;
+      font-weight: bold;
+    }
+    
     .flashcard-back {
+      background: linear-gradient(135deg, var(--success), var(--primary));
+      color: var(--text-light);
       transform: rotateY(180deg);
-      background: #e0e0e0;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+    
+    .flashcard-badge {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.2rem 0.5rem;
+      border-radius: 1rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* Instrucciones */
+    .instructions {
+      text-align: center;
+      margin: 2rem auto;
+      padding: 1rem;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .instructions p {
+      margin-bottom: 0.5rem;
+    }
+    
+    .instructions i {
+      margin-right: 0.5rem;
+      color: var(--warning);
+    }
+    
+    /* Animaciones */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .flashcard:nth-child(odd) {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .flashcard:nth-child(even) {
+      animation: float 7s ease-in-out infinite reverse;
+    }
+    
+    /* Media queries */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .container {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.5rem;
+      }
+      
+      .flashcard {
+        height: 240px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+        margin: 0 auto;
+      }
+      
+      .header h1 {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Flashcards: Simplificación de Expresiones Algebraicas</h1>
+  <div class="decoration"></div>
+  
+  <header class="header animate__animated animate__fadeIn">
+    <h1>Flashcards: Álgebra Pro</h1>
+    <p>¡Domina la simplificación de expresiones algebraicas mientras te diviertes!</p>
+  </header>
+  
+  <div class="instructions animate__animated animate__fadeIn animate__delay-1s">
+    <p><i class="fas fa-info-circle"></i> Pasa el cursor sobre cada tarjeta para ver la respuesta</p>
+  </div>
+  
   <div class="container">
-    <!-- 1 -->
-    <div class="flashcard">
+    <!-- Flashcard 1 -->
+    <div class="flashcard animate__animated animate__fadeIn animate__delay-1s">
       <div class="flashcard-inner">
-        <div class="flashcard-front">$a^2 b^3 \cdot a b^2$</div>
-        <div class="flashcard-back">$a^{3} b^{5}$</div>
+        <div class="flashcard-front">
+          $a^2 b^3 \cdot a b^2$
+          <div class="flashcard-badge">Producto de potencias</div>
+        </div>
+        <div class="flashcard-back">
+          $a^{3} b^{5}$
+        </div>
       </div>
     </div>
-    <!-- 2 -->
-    <div class="flashcard">
+    
+    <!-- Flashcard 2 -->
+    <div class="flashcard animate__animated animate__fadeIn animate__delay-2s">
       <div class="flashcard-inner">
-        <div class="flashcard-front">$(a^3)^2$</div>
-        <div class="flashcard-back">$a^{6}$</div>
+        <div class="flashcard-front">
+          $\frac{x^5}{x^2}$
+          <div class="flashcard-badge">División de potencias</div>
+        </div>
+        <div class="flashcard-back">
+          $x^3$
+        </div>
       </div>
     </div>
-    <!-- 3 -->
-    <div class="flashcard">
+    
+    <!-- Flashcard 3 -->
+    <div class="flashcard animate__animated animate__fadeIn animate__delay-3s">
       <div class="flashcard-inner">
-        <div class="flashcard-front">$b^4 / b^2$</div>
-        <div class="flashcard-back">$b^{2}$</div>
+        <div class="flashcard-front">
+          $(3x^2)^3$
+          <div class="flashcard-badge">Potencia de potencia</div>
+        </div>
+        <div class="flashcard-back">
+          $27x^6$
+        </div>
       </div>
     </div>
-    <!-- 4 -->
-    <div class="flashcard">
+    
+    <!-- Flashcard 4 -->
+    <div class="flashcard animate__animated animate__fadeIn animate__delay-4s">
       <div class="flashcard-inner">
-        <div class="flashcard-front">$(a b)^2$</div>
-        <div class="flashcard-back">$a^{2} b^{2}$</div>
+        <div class="flashcard-front">
+          $2x + 3x - 5x$
+          <div class="flashcard-badge">Términos semejantes</div>
+        </div>
+        <div class="flashcard-back">
+          $0$
+        </div>
       </div>
     </div>
-    <!-- 5 -->
-    <div class="flashcard">
+    
+    <!-- Flashcard 5 -->
+    <div class="flashcard animate__animated animate__fadeIn animate__delay-5s">
       <div class="flashcard-inner">
-        <div class="flashcard-front">$(b^2 a)^3$</div>
-        <div class="flashcard-back">$a^{3} b^{6}$</div>
+        <div class="flashcard-front">
+          $(x + 2)(x - 3)$
+          <div class="flashcard-badge">Producto notable</div>
+        </div>
+        <div class="flashcard-back">
+          $x^2 - 3x + 2x - 6$
+          $= x^2 - x - 6$
+        </div>
       </div>
     </div>
-    <!-- 6 -->
+    
+    <!-- Flashcard 6 -->
     <div class="flashcard">
       <div class="flashcard-inner">
-        <div class="flashcard-front">$a^5 / a^2$</div>
-        <div class="flashcard-back">$a^{3}$</div>
+        <div class="flashcard-front">
+          $\frac{3a^2b}{6ab^2}$
+          <div class="flashcard-badge">Fracciones algebraicas</div>
+        </div>
+        <div class="flashcard-back">
+          $\frac{a}{2b}$
+        </div>
       </div>
     </div>
-    <!-- 7 -->
+    
+    <!-- Flashcard 7 -->
     <div class="flashcard">
       <div class="flashcard-inner">
-        <div class="flashcard-front">$(a^2 b^{-2})^2$</div>
-        <div class="flashcard-back">$a^{4} b^{-4}$</div>
+        <div class="flashcard-front">
+          $(2a)^2 + (3b)^2$
+          <div class="flashcard-badge">Suma de cuadrados</div>
+        </div>
+        <div class="flashcard-back">
+          $4a^2 + 9b^2$
+        </div>
       </div>
     </div>
-    <!-- 8 -->
+    
+    <!-- Flashcard 8 -->
     <div class="flashcard">
       <div class="flashcard-inner">
-        <div class="flashcard-front">$a^{-1} \cdot a^3$</div>
-        <div class="flashcard-back">$a^{2}$</div>
+        <div class="flashcard-front">
+          $(x + y)^2$
+          <div class="flashcard-badge">Binomio al cuadrado</div>
+        </div>
+        <div class="flashcard-back">
+          $x^2 + 2xy + y^2$
+        </div>
       </div>
     </div>
-    <!-- 9 -->
+    
+    <!-- Flashcard 9 -->
     <div class="flashcard">
       <div class="flashcard-inner">
-        <div class="flashcard-front">$b^3 / b^{-1}$</div>
-        <div class="flashcard-back">$b^{4}$</div>
+        <div class="flashcard-front">
+          $\sqrt{25x^2}$
+          <div class="flashcard-badge">Simplificación de raíces</div>
+        </div>
+        <div class="flashcard-back">
+          $5|x|$
+        </div>
       </div>
     </div>
-    <!-- 10 -->
+    
+    <!-- Flashcard 10 -->
     <div class="flashcard">
       <div class="flashcard-inner">
-        <div class="flashcard-front">$a^0 b^5$</div>
-        <div class="flashcard-back">$b^{5}$</div>
+        <div class="flashcard-front">
+          $3(2x - 4) + 5x$
+          <div class="flashcard-badge">Distributiva</div>
+        </div>
+        <div class="flashcard-back">
+          $6x - 12 + 5x$
+          $= 11x - 12$
+        </div>
       </div>
     </div>
-    <!-- 11 -->
+    
+    <!-- Flashcard 11 -->
     <div class="flashcard">
       <div class="flashcard-inner">
-        <div class="flashcard-front">$(c^2 d)^2 / c$</div>
-        <div class="flashcard-back">$c^{3} d^{2}$</div>
+        <div class="flashcard-front">
+          $x^0$
+          <div class="flashcard-badge">Potencia cero</div>
+        </div>
+        <div class="flashcard-back">
+          $1$
+        </div>
       </div>
     </div>
-    <!-- 12 -->
+    
+    <!-- Flashcard 12 -->
     <div class="flashcard">
       <div class="flashcard-inner">
-        <div class="flashcard-front">$a^4 b^2 \cdot a^{-2} b^3$</div>
-        <div class="flashcard-back">$a^{2} b^{5}$</div>
-      </div>
-    </div>
-    <!-- 13 -->
-    <div class="flashcard">
-      <div class="flashcard-inner">
-        <div class="flashcard-front">$(a b^{-1})^3$</div>
-        <div class="flashcard-back">$a^{3} b^{-3}$</div>
-      </div>
-    </div>
-    <!-- 14 -->
-    <div class="flashcard">
-      <div class="flashcard-inner">
-        <div class="flashcard-front">$a^3 b^4 / (a b^2)$</div>
-        <div class="flashcard-back">$a^{2} b^{2}$</div>
-      </div>
-    </div>
-    <!-- 15 -->
-    <div class="flashcard">
-      <div class="flashcard-inner">
-        <div class="flashcard-front">$(2a^2)^2$</div>
-        <div class="flashcard-back">$4 \, a^{4}$</div>
-      </div>
-    </div>
-    <!-- 16 -->
-    <div class="flashcard">
-      <div class="flashcard-inner">
-        <div class="flashcard-front">$(3b)^3$</div>
-        <div class="flashcard-back">$27 \, b^{3}$</div>
-      </div>
-    </div>
-    <!-- 17 -->
-    <div class="flashcard">
-      <div class="flashcard-inner">
-        <div class="flashcard-front">$(a^2)^3$</div>
-        <div class="flashcard-back">$a^{6}$</div>
-      </div>
-    </div>
-    <!-- 18 -->
-    <div class="flashcard">
-      <div class="flashcard-inner">
-        <div class="flashcard-front">$b^{-2} \cdot b^5$</div>
-        <div class="flashcard-back">$b^{3}$</div>
-      </div>
-    </div>
-    <!-- 19 -->
-    <div class="flashcard">
-      <div class="flashcard-inner">
-        <div class="flashcard-front">$(ab)^0$</div>
-        <div class="flashcard-back">$1$</div>
-      </div>
-    </div>
-    <!-- 20 -->
-    <div class="flashcard">
-      <div class="flashcard-inner">
-        <div class="flashcard-front">$(a^3 b)^2 / (a b)^2$</div>
-        <div class="flashcard-back">$a^{4} b^{0} = a^{4}$</div>
+        <div class="flashcard-front">
+          $x^{-3}$
+          <div class="flashcard-badge">Potencia negativa</div>
+        </div>
+        <div class="flashcard-back">
+          $\frac{1}{x^3}$
+        </div>
       </div>
     </div>
   </div>
+  
+  <script>
+    // Script para mejorar la experiencia móvil con eventos táctiles
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.flashcard');
+      
+      cards.forEach(card => {
+        card.addEventListener('touchstart', function() {
+          const inner = this.querySelector('.flashcard-inner');
+          if (inner.style.transform === 'rotateY(180deg)') {
+            inner.style.transform = 'rotateY(0deg)';
+          } else {
+            inner.style.transform = 'rotateY(180deg)';
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
