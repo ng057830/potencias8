@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flashcards: Simplificación de Expresiones Algebraicas</title>
+
+  <!-- MathJax para renderizar fórmulas -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+    }
+    .flashcard {
+      perspective: 1000px;
+    }
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+    }
+    .flashcard:hover .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+    .flashcard-front,
+    .flashcard-back {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      font-size: 1.1em;
+      background: white;
+    }
+    .flashcard-back {
+      transform: rotateY(180deg);
+      background: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Flashcards: Simplificación de Expresiones Algebraicas</h1>
+  <div class="container">
+    <!-- 1 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$a^2 b^3 \cdot a b^2$</div>
+        <div class="flashcard-back">$a^{3} b^{5}$</div>
+      </div>
+    </div>
+    <!-- 2 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$(a^3)^2$</div>
+        <div class="flashcard-back">$a^{6}$</div>
+      </div>
+    </div>
+    <!-- 3 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$b^4 / b^2$</div>
+        <div class="flashcard-back">$b^{2}$</div>
+      </div>
+    </div>
+    <!-- 4 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$(a b)^2$</div>
+        <div class="flashcard-back">$a^{2} b^{2}$</div>
+      </div>
+    </div>
+    <!-- 5 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$(b^2 a)^3$</div>
+        <div class="flashcard-back">$a^{3} b^{6}$</div>
+      </div>
+    </div>
+    <!-- 6 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$a^5 / a^2$</div>
+        <div class="flashcard-back">$a^{3}$</div>
+      </div>
+    </div>
+    <!-- 7 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$(a^2 b^{-2})^2$</div>
+        <div class="flashcard-back">$a^{4} b^{-4}$</div>
+      </div>
+    </div>
+    <!-- 8 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$a^{-1} \cdot a^3$</div>
+        <div class="flashcard-back">$a^{2}$</div>
+      </div>
+    </div>
+    <!-- 9 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$b^3 / b^{-1}$</div>
+        <div class="flashcard-back">$b^{4}$</div>
+      </div>
+    </div>
+    <!-- 10 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$a^0 b^5$</div>
+        <div class="flashcard-back">$b^{5}$</div>
+      </div>
+    </div>
+    <!-- 11 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$(c^2 d)^2 / c$</div>
+        <div class="flashcard-back">$c^{3} d^{2}$</div>
+      </div>
+    </div>
+    <!-- 12 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$a^4 b^2 \cdot a^{-2} b^3$</div>
+        <div class="flashcard-back">$a^{2} b^{5}$</div>
+      </div>
+    </div>
+    <!-- 13 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$(a b^{-1})^3$</div>
+        <div class="flashcard-back">$a^{3} b^{-3}$</div>
+      </div>
+    </div>
+    <!-- 14 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$a^3 b^4 / (a b^2)$</div>
+        <div class="flashcard-back">$a^{2} b^{2}$</div>
+      </div>
+    </div>
+    <!-- 15 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$(2a^2)^2$</div>
+        <div class="flashcard-back">$4 \, a^{4}$</div>
+      </div>
+    </div>
+    <!-- 16 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$(3b)^3$</div>
+        <div class="flashcard-back">$27 \, b^{3}$</div>
+      </div>
+    </div>
+    <!-- 17 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$(a^2)^3$</div>
+        <div class="flashcard-back">$a^{6}$</div>
+      </div>
+    </div>
+    <!-- 18 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$b^{-2} \cdot b^5$</div>
+        <div class="flashcard-back">$b^{3}$</div>
+      </div>
+    </div>
+    <!-- 19 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$(ab)^0$</div>
+        <div class="flashcard-back">$1$</div>
+      </div>
+    </div>
+    <!-- 20 -->
+    <div class="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">$(a^3 b)^2 / (a b)^2$</div>
+        <div class="flashcard-back">$a^{4} b^{0} = a^{4}$</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
